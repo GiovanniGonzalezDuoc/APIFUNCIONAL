@@ -2,6 +2,7 @@ import { getPersonajes } from "./Peticiones/getPersonajes.js";
 
 const enviarDatos = (comic) => {
     const rutaArchivoHTML = "../personaje.html";
+    console.log(comic);
     fetch(rutaArchivoHTML)
         .then(response => response.text())
         .then((html) => {
@@ -16,12 +17,13 @@ const enviarDatos = (comic) => {
             namePage.textContent = `Título : ${comic.title}`;
 
             const descriptionPage = doc.getElementById("descriptionPage");
-            descriptionPage.textContent = `Descripción : ${comic.description}`;
+            comic.description === "" ? descriptionPage.textContent = `Sin descripcion` : descriptionPage.textContent = `Descripción : ${comic.description}`;
+            
 
             const nuevoHtml = new XMLSerializer().serializeToString(doc);
 
             document.body.innerHTML = nuevoHtml;
-            
+
         })
         .catch((error) => {
             console.log(`El error es: ${error}`);
@@ -31,7 +33,6 @@ const enviarDatos = (comic) => {
 const crearCard = (comics = []) => {
     let comicsRow = document.getElementById("comicsRow");
     comics.forEach((comic) => {
-        console.log(comic);
         const divCol = document.createElement("div");
         divCol.classList.add("col-xl-3");
         divCol.classList.add("col-lg-3");
